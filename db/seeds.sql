@@ -1,7 +1,7 @@
 INSERT INTO department (name)
 VALUES ("kitchen"),
        ("Front"),
-       ("Overhead")
+       ("Overhead");
 
 INSERT INTO role (title, salary , department_id)
 VALUES ("Kitchen manager", "65000" , 1 ),
