@@ -6,6 +6,18 @@ const inquirer = require('inquirer');
 
 const question = require('./lib/question.js');
 
+const SQLCode = require('./lib/SQLCode.js');
+
+var ans = [];
+
+var questionIndex = 0;
+
+const sqlFunc = function ( questionIndex , operation , Table)  { 
+  
+  return new SQLCode( questionIndex , operation, Table )
+
+};
+
 const questionFunc = function (questionIndex , answer , inpMessage)  { 
   
   return new question(questionIndex , answer , inpMessage)
@@ -13,8 +25,6 @@ const questionFunc = function (questionIndex , answer , inpMessage)  {
 };
 
 var index = 1;
-
-var editArryIndex = 0;
 
 const db = mysql.createConnection(
     {
@@ -43,25 +53,25 @@ const db = mysql.createConnection(
       
       if (ansArry[0].toLowerCase() === "veiw"){
 
-      // make sql.js have it do something like this
+        db.query(sqlFunc("", ansArry[0].toLowerCase() ,  ansArry[1]).SQL(), function (err, results) {
 
-        // db.query(`SELECT * FROM ${ansArry[1]};`, function (err, results) {
-
-        //   if (err){
+          if (err){
       
-        //       console.log("Error : " + err);
+              console.log("Error : " + err);
       
-        //   };
+          };
       
-        //   console.table(results);
+          console.table(results);
 
-        //   index = 1;
+          index = 1;
 
-        //   editArryIndex = 0;
+          questionIndex = 0;
 
-        //   ask ( (questionFunc(index , "" , "")).Prompt());
+          ans = [];
+
+          ask ( (questionFunc(index , "" , "")).Prompt());
       
-        // });
+        });
 
       }
 
@@ -69,21 +79,21 @@ const db = mysql.createConnection(
 
       if ( index === 2){
 
+      ans.push(ansArry);
+
       ask ( (questionFunc(index , ansArry , "")).Prompt());
 
       }
 
       else {
 
-        // revise this part with sql.js file
+        ans.push(ansArry);
+       
+        const sql = sqlFunc(questionIndex, ans[1][0].toLowerCase() ,  ans[1][1]);
 
-        if (editArry.finle === true ) {
+        if (sql.SQLQuestion().lastQuestion === true ) {
 
-          index = 1;
-
-          editArryIndex = 0;
-
-          ask ( (questionFunc(index , "" , "")).Prompt());
+          query(ans[1] , sql);
           
         }
 
@@ -91,11 +101,9 @@ const db = mysql.createConnection(
 
         {
 
-          editArryIndex++;
+          questionIndex++;
 
-          //use anser on db here
-
-          ask ( (questionFunc(index , "" , "")).Prompt() );
+          ask( questionFunc(index , "" ,sql.SQLQuestion().prompt).Prompt() );
 
         }
 
@@ -104,6 +112,120 @@ const db = mysql.createConnection(
       }
   
     });
+
+  }
+
+  function query (type , sql) {
+
+    if ( type[0].toLowerCase() === "delete" ) {
+
+      db.query( sql.SQL(), ans[2], function (err, results) {
+
+        if (err){
+    
+            console.log("Error : " + err);
+    
+        };
+  
+        index = 1;
+  
+        questionIndex = 0;
+  
+        ans = [];
+  
+        ask ( (questionFunc(index , "" , "")).Prompt());
+    
+      });
+
+    } else if (type[1].toLowerCase() !== "department") {
+      
+      if ( type[0].toLowerCase() === "add" ){
+
+      db.query( sql.SQL(), [ans[2] , ans[3] , ans[4]] , function (err, results) {
+
+        if (err){
+    
+            console.log("Error : " + err);
+    
+        };
+  
+        index = 1;
+  
+        questionIndex = 0;
+  
+        ans = [];
+  
+        ask ( (questionFunc(index , "" , "")).Prompt());
+    
+      });
+
+    } else {
+
+      db.query( sql.SQL(), [ans[3] , ans[4] , ans[5] , ans[2]] , function (err, results) {
+
+        if (err){
+    
+            console.log("Error : " + err);
+    
+        };
+  
+        index = 1;
+  
+        questionIndex = 0;
+  
+        ans = [];
+  
+        ask ( (questionFunc(index , "" , "")).Prompt());
+    
+      });
+
+    } } else
+
+    {
+      
+      if ( type[0].toLowerCase() === "add" ){
+
+        db.query( sql.SQL(), ans[2] , function (err, results) {
+  
+          if (err){
+      
+              console.log("Error : " + err);
+      
+          };
+    
+          index = 1;
+    
+          questionIndex = 0;
+    
+          ans = [];
+    
+          ask ( (questionFunc(index , "" , "")).Prompt());
+      
+        });
+  
+      } else {
+  
+        db.query( sql.SQL(), [ans[3] , ans[2]] , function (err, results) {
+  
+          if (err){
+      
+              console.log("Error : " + err);
+      
+          };
+    
+          index = 1;
+    
+          questionIndex = 0;
+    
+          ans = [];
+    
+          ask ( (questionFunc(index , "" , "")).Prompt());
+      
+        });
+
+    }
+   
+    }
 
   }
 
