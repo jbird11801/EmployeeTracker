@@ -204,8 +204,6 @@ const db = mysql.createConnection(
         });
   
       } else {
-
-        console.log(ans)
   
         db.query( sql.SQL(), [ans[3] , ans[4] , ans[5] , ans[6] , ans [2]] , function (err, results) {
   
