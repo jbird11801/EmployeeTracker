@@ -15,18 +15,18 @@ VALUES ("Kitchen manager", "65000" , 1 ),
        ("Bartenter", "35000" , 2 ),
        ("Server", "30000" , 2 );
 
-INSERT INTO employee (first_name, last_name, role_id)
-VALUES ("Joe", "Schmo", 1),
-       ("Jeff", "Finn", 2),
-       ("Jake", "Len", 3),
-       ("Jae", "Me", 3),
-       ("Hen", "Rey", 4),
-       ("Heck", "Chen", 5),
-       ("Harry", "Smol", 6),
-       ("Han", "Solo", 6),
-       ("Jay", "Fred", 7),
-       ("Jim", "Len", 7),
-       ("Dim", "Fen", 8),
-       ("Hyn", "Foo", 9),
-       ("Het", "Amy", 10),
-       ("Hert", "Iz", 10);
+INSERT INTO employee (first_name, last_name, role_id , manager_id)
+VALUES ("Joe", "Schmo", 1 , 8),
+       ("Jeff", "Finn", 2 , 1 ),
+       ("Jake", "Len", 3 , 2),
+       ("Jae", "Me", 3 , 2),
+       ("Hen", "Rey", 4 , 8 ),
+       ("Heck", "Chen", 5 , 4),
+       ("Harry", "Smol", 6 , 5),
+       ("Han", "Solo", 6 , 5),
+       ("Jay", "Fred", 7 , 3),
+       ("Jim", "Len", 7 , 3 ),
+       ("Dim", "Fen", 8 , NULL),
+       ("Hyn", "Foo", 9 , 6),
+       ("Het", "Amy", 10 , 6 ),
+       ("Hert", "Iz", 10 , 6 );
