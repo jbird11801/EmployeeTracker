@@ -139,6 +139,8 @@ const db = mysql.createConnection(
 
     } else if (type[1].toLowerCase() !== "department") {
       
+      if (type[1].toLowerCase() !== "employee") { 
+        
       if ( type[0].toLowerCase() === "add" ){
 
       db.query( sql.SQL(), [ans[2] , ans[3] , ans[4]] , function (err, results) {
@@ -179,7 +181,53 @@ const db = mysql.createConnection(
     
       });
 
-    } } else
+    } } else {
+
+      if ( type[0].toLowerCase() === "add" ){
+
+        db.query( sql.SQL(), [ans[2] , ans[3] , ans[4] , ans[5]] , function (err, results) {
+  
+          if (err){
+      
+              console.log("Error : " + err);
+      
+          };
+    
+          index = 1;
+    
+          questionIndex = 0;
+    
+          ans = [];
+    
+          ask ( (questionFunc(index , "" , "")).Prompt());
+      
+        });
+  
+      } else {
+
+        console.log(ans)
+  
+        db.query( sql.SQL(), [ans[3] , ans[4] , ans[5] , ans[6] , ans [2]] , function (err, results) {
+  
+          if (err){
+      
+              console.log("Error : " + err);
+      
+          };
+    
+          index = 1;
+    
+          questionIndex = 0;
+    
+          ans = [];
+    
+          ask ( (questionFunc(index , "" , "")).Prompt());
+      
+        });
+
+    }
+  
+  } } else
 
     {
       
